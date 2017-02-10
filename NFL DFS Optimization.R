@@ -23,8 +23,8 @@ getSquad = function(csvfile, delPlayer = NULL, minSalary = 0){
   con <- matrix(cons, nrow=6, byrow=TRUE)
   allcons <- rbind(con, con)
   #set right hand side coefficients for both max and min
-  maxrhs <- c(1,2,4,5,1,"50000") #max salary,qb,rb,wr,te,flex,def
-  minrhs <- c(1,1,3,5,1, minSalary) #minsalary, #qb, rb, wr, te, flex, def
+  maxrhs <- c(1,2,4,6,1,"50000") #max salary,qb,rb,wr,te,flex,def
+  minrhs <- c(1,1,3,6,1, minSalary) #minsalary, #qb, rb, wr, te, flex, def
   maxrel <- c("<=","<=","<=","<=","<=","<=")
   minrel <- c(">=", ">=",">=",">=",">=",">=")
   #all final variables
@@ -37,7 +37,8 @@ getSquad = function(csvfile, delPlayer = NULL, minSalary = 0){
   optsolution <- nfl[solindex,]
   #cleaning up table and adding sums
   optsolution <- optsolution[,c(-1,-2,-3,-7,-11:-16)]
-  optsolution[10,] <- c("","","","", sum(optsolution$DK.points), sum(optsolution$DK.salary))
+  optsolution[8,] <- c("","","","", sum(optsolution$DK.points), sum(optsolution$DK.salary))
+  print(optsolution)
   #write to csv or View in R
   View(optsolution)
   write.csv(optsolution, paste("Optimized", csvfile), row.names = F)
