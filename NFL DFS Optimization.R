@@ -42,3 +42,4 @@ getSquad = function(csvfile, delPlayer = NULL, minSalary = 0){
   View(optsolution)
   write.csv(optsolution, paste("Optimized", csvfile), row.names = F)
 }
+getSquad("cfl-week1-migrated.csv")
