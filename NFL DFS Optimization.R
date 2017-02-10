@@ -8,7 +8,7 @@ getSquad = function(csvfile, delPlayer = NULL, minSalary = 0){
   #creating flex binary column
   nfl$PosFlex <- 0
   for (row in 1:length(nfl$PosRB)) {
-    if (nfl$PosRB[row] > 0 || nfl$PosWR[row] > 0 || nfl$PosTE[row] > 0){
+    if (nfl$PosRB[row] > 0 || nfl$PosWR[row] > 0){
       nfl$PosFlex[row] <- 1
     }
   }
@@ -18,15 +18,15 @@ getSquad = function(csvfile, delPlayer = NULL, minSalary = 0){
     nfl[index, 9] <- 0
   }
   #create constraints
-  cons<- c(nfl$PosQB, nfl$PosRB, nfl$PosWR, nfl$PosTE, nfl$PosFlex, nfl$PosDef, nfl$DK.salary)
+  cons<- c(nfl$PosQB, nfl$PosRB, nfl$PosWR, nfl$PosFlex, nfl$PosDef, nfl$DK.salary)
   #create matrix and double it for both sides of constraints
-  con <- matrix(cons, nrow=7, byrow=TRUE)
+  con <- matrix(cons, nrow=6, byrow=TRUE)
   allcons <- rbind(con, con)
   #set right hand side coefficients for both max and min
-  maxrhs <- c(1,3,4,2,7,1,"50000") #max salary,qb,rb,wr,te,flex,def
-  minrhs <- c(1,2,3,1,7,1, minSalary) #minsalary, #qb, rb, wr, te, flex, def
-  maxrel <- c("<=","<=","<=","<=","<=","<=","<=")
-  minrel <- c(">=", ">=",">=",">=",">=",">=",">=")
+  maxrhs <- c(1,2,4,5,1,"50000") #max salary,qb,rb,wr,te,flex,def
+  minrhs <- c(1,1,3,5,1, minSalary) #minsalary, #qb, rb, wr, te, flex, def
+  maxrel <- c("<=","<=","<=","<=","<=","<=")
+  minrel <- c(">=", ">=",">=",">=",">=",">=")
   #all final variables
   obj <- nfl$DK.points
   rel <- c(maxrel,minrel)
